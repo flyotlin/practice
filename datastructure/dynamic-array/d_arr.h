@@ -2,19 +2,18 @@
 #define D_ARR_H
 
 
-class d_arr
-{
+class d_arr {
     public:
         d_arr(int capacity);
+        bool is_empty();
         int get_size();
         int get_capacity();
-        bool is_empty();
-        void push(int num);
         int at(int index);  // starting from 0
-        void resize_capacity();
         int find_value(int value);
-        void insert(int index, int value);
         int pop();
+        void push(int num);
+        void resize_capacity();
+        void insert(int index, int value);
         void remove(int index);
     private:
         int size = 0;

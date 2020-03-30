@@ -1,7 +1,6 @@
 #include "d_arr.h"
 
-d_arr::d_arr(int capacity)
-{
+d_arr::d_arr(int capacity) {
     this->capacity = capacity;
 
     //we need to allocate the memory space to int *data
