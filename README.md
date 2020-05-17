@@ -59,68 +59,20 @@ dp可以想像成一個二維陣列，列(row)為m，行(column)為n。
 ### 費氏數列+快速冪
 [Code](https://github.com/flyotlin/practice-cpp/blob/master/algorithm/dynamic%20programming/%E8%B2%BB%E6%B0%8F%E6%95%B8%E5%88%97%2B%E5%BF%AB%E9%80%9F%E5%86%AA.cpp)
 
-我們都知道費氏數列的遞迴式是 $a_n = a_{n-1} + a_{n-2}$。比較一般的做法，也就是用for迴圈來計算$a_n$的話，時間複雜度大約是$O(n)$。但其實我們可以先計算出費氏數列的**轉移矩陣**，接著再利用**快速冪**的方式來計算$a_n$的數值，這個方法可以將時間複雜度優化到$O(log(n))$。
+我們都知道費氏數列的遞迴式是![](image/CodeCogsEqn.gif)。比較一般的做法，也就是用for迴圈來計算![](image/CodeCogsEqn1.gif)的話，時間複雜度大約是![](image/CodeCogsEqn2.gif)。但其實我們可以先計算出費氏數列的**轉移矩陣**，接著再利用**快速冪**的方式來計算![](image/CodeCogsEqn1.gif)的數值，這個方法可以將時間複雜度優化到![](image/CodeCogsEqn3.gif)。
 
 #### 什麼是快速冪?
-假設現在要你計算$5^{100}$你會怎麼算?是將5連乘100次?還是先算出$5^{50}$，再把$5^{50}$平方來得到$5^{100}$?
+假設現在要你計算![](image/CodeCogsEqn4.gif)你會怎麼算?是將5連乘100次?還是先算出![](image/CodeCogsEqn5.gif)，再把![](image/CodeCogsEqn5.gif)平方來得到![](image/CodeCogsEqn4.gif)?
 
-數學課計算時我們的確時常會運用這樣的技巧，而這種技巧就是快速冪的概念。只可惜我們在寫程式的時候卻常常直接用for迴圈來暴力解決這類型的指數問題，時間複雜度因而變為$O(n)$，但只要運用快速冪這類的概念，就能將時間複雜度降低為$O(log(n))$了。
+數學課計算時我們的確時常會運用這樣的技巧，而這種技巧就是快速冪的概念。只可惜我們在寫程式的時候卻常常直接用for迴圈來暴力解決這類型的指數問題，時間複雜度因而變為![](image/CodeCogsEqn2.gif)，但只要運用快速冪這類的概念，就能將時間複雜度降低為![](image/CodeCogsEqn3.gif)了。
 
 將快速冪寫成比較數學的形式大概是以下這樣:
 
-$$
-\begin{aligned}
-f(x) &= f(x, n/2),\ if\ n\ is\ even \\
-     &= f(x, n/2)\cdot x,\ if\ n\ is\ odd
-\end{aligned}
-$$
+>![](image/CodeCogsEqn6.gif)
 
 #### 費氏數列的轉移矩陣
-我們已經知道$a_0=1, a_1=1$，關係式為$\left(
-\begin{array}{c}
-a_n \\
-a_{n-1} \\
-\end{array}
-\right) =$
-$轉移矩陣$
-$\cdot$
-$
-\left(
-\begin{array}{c}
-a_{n-1} \\
-a_{n-2} \\
-\end{array}
-\right)$。可以先假設轉移矩陣為$\left(
-\begin{array}{cc}
-a & b \\
-c & d \\
-\end{array}
-\right)$，帶入兩組已知的數值，再經過高中數學教過的計算可以得到**轉移矩陣**:$\left(
-\begin{array}{cc}
-1 & 1 \\
-1 & 0 \\
-\end{array}
-\right)$。
+我們已經知道![](image/CodeCogsEqn7.gif)，關係式為![](image/CodeCogsEqn8.gif)。可以先假設轉移矩陣為![](image/CodeCogsEqn9.gif)，帶入兩組已知的數值，再經過高中數學教過的計算可以得到**轉移矩陣**:![](image/CodeCogsEqn10.gif)。
 
-從$a_0,$$a_1$開始計算的話，就會變成
-$\left(
-\begin{array}{c}
-a_n \\
-a_{n-1} \\
-\end{array}
-\right) =$
-${\left(
-\begin{array}{cc}
-1 & 1 \\
-1 & 0 \\
-\end{array}
-\right)}^n$
-$\cdot$
-$
-\left(
-\begin{array}{c}
-a_1 \\
-a_0 \\
-\end{array}
-\right)$
-，其中指數n就是這次快速冪的主角，透過快速冪將指數計算的時間複雜度降為$O(log(n))$而提升費氏數列的計算速度。
+從![](image/CodeCogsEqn11.gif)開始計算的話，就會變成
+![](image/CodeCogsEqn12.gif)
+，其中指數n就是這次快速冪的主角，透過快速冪將指數計算的時間複雜度降為![](image/CodeCogsEqn3.gif)而提升費氏數列的計算速度。
