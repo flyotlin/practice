@@ -15,11 +15,19 @@
         - [費氏數列+快速冪](#費氏數列+快速冪)
 ## 數學
 ### x的k次方
-[Code]()
+[Code](https://github.com/flyotlin/practice-cpp/blob/master/math/x%E7%9A%84k%E6%AC%A1%E6%96%B9.cpp)
 
-[參考](https://zh.wikipedia.org/wiki/%E5%B9%B3%E6%96%B9%E6%B1%82%E5%B9%82)
+[參考(維基百科)](https://zh.wikipedia.org/wiki/%E5%B9%B3%E6%96%B9%E6%B1%82%E5%B9%82)
 
-這個題目運用到了快速冪。快速冪的公式大概長這樣![](https://wikimedia.org/api/rest_v1/media/math/render/svg/46fe9e68c70c04df4c3d22c469a57d4655b50539)
+這個題目運用到了快速冪。快速冪的公式大概長這樣(從維基百科找來的)![](https://wikimedia.org/api/rest_v1/media/math/render/svg/46fe9e68c70c04df4c3d22c469a57d4655b50539)
+
+其實快速冪的概念我們很久以前就已經會了，只是在寫程式的時候沒有特別想到這樣實作，而是採用for迴圈的方式。
+
+舉例來說，如果要計算![](image/CodeCogsEqn4.gif)，在寫程式的時候你或許會直接用for迴圈重複執行100次，這樣時間複雜度是![](image/CodeCogsEqn2.gif)。
+
+但如果先算出![](image/CodeCogsEqn5.gif)，再將結果平方。只要反覆運用這種先將指數次方除以2，再將結果平方的方式，就能將時間複雜度降低為![](image/CodeCogsEqn3.gif)，而這也就體現出了上面快速冪公式的精神。
+
+快速冪除了運用在多項式的指數次方問題之外，也可以運用在矩陣的指數次方上。最著名的例子就可以運用在費氏數列上，詳情可以參考我下面寫的[費氏數列+快速冪](#費氏數列+快速冪)，這樣同樣可以讓計算費氏數列第![](image/CodeCogsEqn1.gif)項的時間優化為![](image/CodeCogsEqn3.gif)。
 
 ## 動態規劃
 一般在思考動態規劃的問題，都會先觀察題目，接著再定義出適合的狀態以及轉移式。
@@ -41,14 +49,14 @@
 
 名稱中的01聽說是代表物品放或不放的意思。題目給定背包的大小，以及若干物品。為了讓狀態更好定義，我們可以把給定的背包大小假設為m。編號若干物品為Wi，從0開始算起。其中n為物品的總數量-1(因為從0開始編號)。
 #### 狀態: 
-> **dp(m, n)** 
+> ![](image/CodeCogsEqn13.gif)
 
 空間為m時，從物品W0-Wn，選擇放或者不放的**最大價值**。一般dp的n=0都定義為沒有物品。如果n=0定義成W0~W0，則需要另外判斷沒有物品的狀況。
 dp可以想像成一個二維陣列，列(row)為m，行(column)為n。
 #### 轉移式:
 > **dp(m, n) = max{dp(m, n-1), dp(m-第n個物品所占空間, n-1)+第n個物品的價值}**
 
-* **dp(m, n-1)**
+* ![](image/CodeCogsEqn14.gif)
 
 不放Wn的狀況，因此最大價值則跟dp(m, n-1)相同。
 
