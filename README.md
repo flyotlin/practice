@@ -5,6 +5,8 @@
 
 ## 目錄
 - NCU競程題解
+    - [資料結構](#資料結構)
+        - [判斷有沒有環](#判斷有沒有環)
     - [數學](#數學)
         - [x的k次方(快速冪)](#x的k次方)
     - [枚舉](#動態規劃)
@@ -13,7 +15,48 @@
         - [又是硬幣問題](#又是硬幣問題)
         - [01背包問題](#01背包問題)
         - [費氏數列+快速冪](#費氏數列+快速冪)
-## 數學
+## 資料結構
+### 判斷有沒有環
+[Code](https://github.com/flyotlin/practice-cpp/blob/master/datastructure/%E5%88%A4%E6%96%B7%E6%9C%89%E6%B2%92%E6%9C%89%E7%92%B0.cpp)
+
+[圖論參考](https://hackmd.io/@royyaha/B1J17UcsI?fbclid=IwAR1TrVqVe_k-eTOUYRvCNzKgodMUMaJQFelZCE5z2KlHlxGv4DX6LS5shuA)
+
+#### 圖(Graph)
+一般在現實生活中看到的圖大概長這樣
+
+![](image/440px-Tree_graph.svg.png)
+
+但是我們要怎麼把這樣的圖儲存在電腦中呢? 常見的方法有兩種，**Adjacency Matrix**以及**Adjacency List**。
+* Adjacency Matrix:儲存點與點之間的相連關係，如果有連接則為1，沒連接則為0，而實作時常用二維陣列，這也是被命名為matrix的原因。
+* Adjacency List:儲存每個點的所有相鄰的點，所以才會被稱為一個list。
+
+大致上了解如何儲存圖之後，我們還需要了解圖的分類。有向圖、無向圖，以及權重，這部分可以參考上面的[圖論參考](https://hackmd.io/@royyaha/B1J17UcsI?fbclid=IwAR1TrVqVe_k-eTOUYRvCNzKgodMUMaJQFelZCE5z2KlHlxGv4DX6LS5shuA)。
+
+接著，我們還想知道怎麼遍歷一個圖，畢竟我們或許想存取裡面的資料也說不定，誰知道什麼時候會用到呢。常見遍歷圖的方法有兩種:
+* DFS(深度優先搜尋) -見下說明
+* BFS(廣度優先搜尋) -留到下一題再來說明
+
+除此之外，我們還發現圖好像跟另一種資料結構-樹(Tree)有點像，這兩個有什麼差別?簡單來說，差別就在樹沒有環，而圖有環。
+
+那麼什麼是環呢?環就是可以在圖上繞成一個圈，廣義來說也可以**自環**，也就是自己這個點繞到自己這個點。要注意的是子節點與父節點之間是不能繞成一個圈的，這在本題判斷有沒有環當中扮演了重要的角色。
+#### DFS遍歷
+這邊我用Adjacency List來寫DFS。除了圖本身之外，我們還需要一個visit的陣列來判斷那個點是否已經被造訪過了。
+
+DFS，深度優先搜索，顧名思義就是每造訪一個新的節點時就往他最深的可能處造訪，直到最深後再返回，往下一個**同深度**的節點的最深可能處造訪，而這也跟stack的概念有些相似。在這邊我用c++ stl內建的vector來取代stack，vector其實也跟stack有類似的概念，LIFO。
+
+stack概念在dfs裡是，如果造訪一個點，就把他push到stack裡面去，接著持續這個動作。若該點已經沒有相鄰、沒造訪過的點，就把他pop掉。可以看看這部影片，把dfs與stack的關係視覺化的滿好的，只是英文口音有點母湯: [Depth First Search Algorithm](https://www.youtube.com/watch?v=iaBEKo5sM7w)。
+
+每次造訪一個點後就把visit[那個點]設為true。在選擇下一個遍歷的點時，如果該點已被造訪過就不再次造訪該點。
+#### 本題
+我寫這題的時候所用的建圖方式是Adjacency List，想知道Adjacency Matrix怎麼寫的話可以參考演算法筆記的Graph篇。
+
+題目說測資所給的圖是無向圖，所以在建圖的時候要把雙向關係都考慮進去。其實這題寫出圖的dfs遍歷之後再稍微改一下判斷條件就能解出來了。
+
+在dfs的過程中，如果**碰到已經拜訪過的點** (visit[G[u][i]] == true)，而且**那個點不是父節點的話** (G[u][i] != prev)，就代表這個圖有環。因為父節點與子節點之間的連結並不能繞成一個圈，因此也就不是一個環。
+
+Code中的ARing這個變數是用來判斷是否為一個環，如果是再輸出YES，否則輸出NO。
+
+
 ### x的k次方
 [Code](https://github.com/flyotlin/practice-cpp/blob/master/math/x%E7%9A%84k%E6%AC%A1%E6%96%B9.cpp)
 
@@ -90,7 +133,9 @@ dp可以想像成一個二維陣列，列(row)為m，行(column)為n。
 >![](image/CodeCogsEqn6.gif)
 
 #### 費氏數列的轉移矩陣
-我們已經知道![](image/CodeCogsEqn7.gif)，關係式為![](image/CodeCogsEqn8.gif)。可以先假設轉移矩陣為![](image/CodeCogsEqn9.gif)，帶入兩組已知的數值，再經過高中數學教過的計算可以得到**轉移矩陣**:![](image/CodeCogsEqn10.gif)。
+我們已經知道![](image/CodeCogsEqn7.gif)，關係式為![](image/CodeCogsEqn8.gif)。
+
+可以先假設轉移矩陣為![](image/CodeCogsEqn9.gif)，帶入兩組已知的數值，再經過高中數學教過的計算得到**轉移矩陣**:![](image/CodeCogsEqn10.gif)。
 
 從![](image/CodeCogsEqn11.gif)開始計算的話，就會變成
 ![](image/CodeCogsEqn12.gif)
